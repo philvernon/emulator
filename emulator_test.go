@@ -5,8 +5,8 @@ import (
 	"math"
 	"testing"
 
+	"github.com/philvernon/emulator/anomaly"
 	"github.com/stretchr/testify/assert"
-	"github.com/synaptecltd/emulator/anomaly"
 )
 
 var anomalyKey = "test"

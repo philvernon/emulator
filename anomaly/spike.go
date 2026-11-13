@@ -5,7 +5,7 @@ import (
 	"math"
 	"math/rand/v2"
 
-	"github.com/synaptecltd/emulator/mathfuncs"
+	"github.com/philvernon/emulator/mathfuncs"
 )
 
 // Produces spikes in waveform data: these occur at each timestep based on a probability factor.

@@ -5,8 +5,8 @@ import (
 	"math/rand/v2"
 	"testing"
 
+	"github.com/philvernon/emulator/mathfuncs"
 	"github.com/stretchr/testify/assert"
-	"github.com/synaptecltd/emulator/mathfuncs"
 )
 
 // Tests for non-random trend functions

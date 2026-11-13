@@ -3,7 +3,7 @@ package emulator
 import (
 	"math/rand/v2"
 
-	"github.com/synaptecltd/emulator/anomaly"
+	"github.com/philvernon/emulator/anomaly"
 )
 
 type TemperatureEmulation struct {

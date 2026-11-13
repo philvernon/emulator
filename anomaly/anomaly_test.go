@@ -6,8 +6,8 @@ import (
 	"testing"
 
 	"github.com/goccy/go-yaml"
+	"github.com/philvernon/emulator/anomaly"
 	"github.com/stretchr/testify/assert"
-	"github.com/synaptecltd/emulator/anomaly"
 )
 
 // Test anomalies can be unmarshalled from yaml

@@ -4,8 +4,8 @@ import (
 	"math"
 	"math/rand/v2"
 
-	"github.com/stevenblair/sigourney/fast"
-	"github.com/synaptecltd/emulator/anomaly"
+	"github.com/philvernon/emulator/anomaly"
+	"github.com/philvernon/sigourney/fast"
 )
 
 const TwoPiOverThree = 2 * math.Pi / 3

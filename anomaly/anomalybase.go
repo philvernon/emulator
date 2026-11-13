@@ -3,7 +3,7 @@ package anomaly
 import (
 	"errors"
 
-	"github.com/synaptecltd/emulator/mathfuncs"
+	"github.com/philvernon/emulator/mathfuncs"
 )
 
 // AnomalyBase is the base struct for all anomaly types.
