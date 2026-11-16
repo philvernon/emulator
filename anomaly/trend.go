@@ -4,7 +4,7 @@ import (
 	"errors"
 	"math/rand/v2"
 
-	"github.com/synaptecltd/emulator/mathfuncs"
+	"github.com/philvernon/emulator/mathfuncs"
 )
 
 // Modulates waveform data using continuous functions.

@@ -7,9 +7,9 @@ import (
 	"testing"
 
 	"github.com/goccy/go-yaml"
+	"github.com/philvernon/emulator/mathfuncs"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/synaptecltd/emulator/mathfuncs"
 )
 
 func TestReverseInvertTrend(t *testing.T) {

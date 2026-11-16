@@ -1,10 +1,10 @@
-module github.com/synaptecltd/emulator
+module github.com/philvernon/emulator
 
 go 1.24
 
 require (
 	github.com/goccy/go-yaml v1.18.0
-	github.com/stevenblair/sigourney v0.0.0-20230226010226-466bed07c980
+	github.com/philvernon/sigourney v0.0.0-20230226010226-466bed07c980
 	github.com/stretchr/testify v1.8.1
 )
 

@@ -7,7 +7,7 @@ import (
 	"math/rand/v2"
 
 	"github.com/goccy/go-yaml"
-	"github.com/synaptecltd/emulator/mathfuncs"
+	"github.com/philvernon/emulator/mathfuncs"
 )
 
 // Container is a collection of anomalies.
