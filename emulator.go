@@ -40,6 +40,7 @@ type Emulator struct {
 	I *ThreePhaseEmulation `yaml:"CurrentEmulator,omitempty"` // Current Emulator
 
 	T *TemperatureEmulation `yaml:"TemperatureEmulator,omitempty"` // Temperature Emulation
+	D *DtsEmulation         `yaml:"DTSEmulator,omitempty"`         // DTS profile Emulation
 
 	// common state
 	SmpCnt                     int `yaml:"-"`
@@ -126,6 +127,9 @@ func (e *Emulator) Step() {
 	}
 	if e.T != nil {
 		e.T.stepTemperature(e.r, e.Ts)
+	}
+	if e.D != nil {
+		e.D.stepDts(e.r, e.Ts)
 	}
 
 	e.SmpCnt++

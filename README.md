@@ -1,6 +1,6 @@
 # Emulator - generating high-resolution sensor data
 
-This Go module emulates data for voltage, current, and temperature sensors.
+This Go module emulates data for voltage, current, temperature, and DTS (distributed temperature sensing) profile sensors.
 
 For voltage and current sensors, it allows typical parameters for three-phase systems to be specified, and it outputs waveform samples. It supports arbitrary sampling rates and other signal parameters.
 
@@ -8,7 +8,7 @@ For voltage and current sensors, it allows typical parameters for three-phase sy
 
 ## Code example
 
-Each `emulator` instance can implement up to one of each of: three-phase voltage (`V`), three-phase current (`I`), and temperature (`T`). Outputs values are updated every time step, `Ts`, for a given sampling rate. Only the outputs for initialised `V`, `I`, and `T` objects will be updated each time step.
+Each `emulator` instance can implement up to one of each of: three-phase voltage (`V`), three-phase current (`I`), and temperature (`T`), plus a DTS profile (`D`). Outputs values are updated every time step, `Ts`, for a given sampling rate. Only the outputs for initialised `V`, `I`, `T`, and `D` objects will be updated each time step.
 
 ```go
 // base parameters
@@ -124,3 +124,48 @@ Anomalies can be added to the following sensor parameters:
 | Voltage/current | `FreqAnomaly`      | Frequency                   | Adds/subtracts signal frequency                | Hz            |
 | Voltage/current | `HarmonicsAnomaly` | All harmonics magnitudes    | Adds/subtracts all harmonic magnitudes         | per unit      |
 | Temperature     | `Anomaly`          | Temperature value           | Adds/subtracts instantaneous temperature value | Degrees C     |
+| DTS profile     | `Anomaly`          | DTS point temperatures      | Adds/subtracts temperatures of points within each group's spatial window | Degrees C     |
+
+### DTS profile emulation
+
+`DtsEmulation` generates a temperature profile along a fiber: `PointCount` points spaced `SpatialResolutionM` metres apart, output in `T` (index-aligned with `Distances()`). `BaseTemperatures` may hold one uniform baseline, `PointCount` values forming a spatial profile, or be empty (20 °C baseline).
+
+Anomalies are configured as groups, each with an optional spatial window (`DistanceM`, `WidthM` metres from the fiber start; `WidthM` of 0 covers the whole fiber). The shared anomaly interface is unchanged: each group holds a standard `anomaly.Container`, and spike/trend behaviour is identical to the V/I/T emulators.
+
+```go
+d, err := emulator.NewDtsEmulation(emulator.DtsEmulation{
+    PointCount:         100,
+    SpatialResolutionM: 10.0, // points every 10 m
+    BaseTemperatures:   []float64{18.4},
+    NoiseMag:           0.01,
+})
+hotspot, _ := anomaly.NewSpikeAnomaly(anomaly.SpikeParams{
+    Name: "hotspot", Probability: 0.01, Magnitude: 15, SpikeSign: 1,
+})
+err = d.AddAnomaly(240, 200, hotspot) // +15 °C spikes at 240-440 m
+
+emu := emulator.NewEmulator(samplingRate, freq)
+emu.D = d
+for step < samplingRate {
+    emu.Step()
+    // emu.D.T holds the profile; emu.D.Distances() the point distances
+    step += 1
+}
+```
+
+As with the other emulators, `DtsEmulation` can also be defined via yaml (validated on unmarshal):
+
+```yaml
+PointCount: 100
+SpatialResolutionM: 10.0
+BaseTemperatures: [18.4]
+NoiseMag: 0.01
+Anomaly:
+  - DistanceM: 240 # spatial window start, m (default 0)
+    WidthM: 200 # spatial window width, m (0 = whole fiber)
+    Anomalies:
+      - Name: hotspot
+        Type: spike
+        Probability: 0.01
+        Magnitude: 15
+```
